@@ -9,34 +9,53 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using NLog.Extensions.Logging;
+using CityInfo.API.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace CityInfo.API
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // So we can use appsettings and environments
+        public static IConfiguration Configuration { get; private set; }
+       
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()));
-                    // Without options, returns camcelCase JSON, or you can return case used in class
-                    //.AddJsonOptions(o => {
-                    //    if (o.SerializerSettings.ContractResolver != null)
-                    //    {
-                    //        var castedResolver = o.SerializerSettings.ContractResolver
-                    //            as DefaultContractResolver;
-                    //        castedResolver.NamingStrategy = null;
-                    //    }
-                    //});
+                // Without options, returns camcelCase JSON, or you can return case used in class
+                //.AddJsonOptions(o => {
+                //    if (o.SerializerSettings.ContractResolver != null)
+                //    {
+                //        var castedResolver = o.SerializerSettings.ContractResolver
+                //            as DefaultContractResolver;
+                //        castedResolver.NamingStrategy = null;
+                //    }
+                //});
+
+
+            // more flexy but maybe use environment variable or appsettings? https://bit.ly/2G9B33j
+            #if DEBUG
+                services.AddTransient<IMailService, LocalMailService>();
+            #else
+                services.AddTransient<IMailService, CloudMailService>();
+            #endif
         }
 
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
+            loggerFactory.AddDebug(LogLevel.Information); //LogLevel.Information is default, could leave out
+            loggerFactory.AddNLog(); //short way
 
             if (env.IsDevelopment())
             {
@@ -49,11 +68,7 @@ namespace CityInfo.API
 
             app.UseStatusCodePages();
             app.UseMvc();
-            //app.Run(async (context) =>
-            //{
-            //    //await context.Response.WriteAsync("Hello World!");
-            //    throw new Exception("Exception example");
-            //});
+
         }
     }
 }

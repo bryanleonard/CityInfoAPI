@@ -5,23 +5,48 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CityInfo.API.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Logging;
+using CityInfo.API.Services;
 
 namespace CityInfo.API.Controllers
 {
     [Route("api/cities")]
     public class PointsOfInterestController : Controller
     {
+        // Let's do some dependency injection
+        private ILogger<PointsOfInterestController> _logger;
+        private IMailService _mailService; // more flexible than "private LocalMailService _mailService;"
+
+        public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService)
+        {
+            _logger = logger;
+            _mailService = mailService;
+        }
+
+
         [HttpGet("{cityId}/pointsofinterest")]
         public IActionResult GetPointsOfInterest(int cityId)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-
-            if (city == null)
+            
+            try
             {
-                return NotFound();
-            }
+                //throw new Exception("example exception");
 
-            return Ok(city.PointsOfInterest);
+                var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+                if (city == null)
+                {
+                    _logger.LogInformation($"City with id {cityId} wasn't found when accessing POIs.");
+                    return NotFound();
+                }
+
+                return Ok(city.PointsOfInterest);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"Exception while getting POI for city with id {cityId}.", ex);
+                return StatusCode(500, "Oh noes! Internal server error."); // This goes to the consumer, keep it vague.
+            }
+            
         }
 
         [HttpGet("{cityId}/pointsofinterest/{id}")]
@@ -207,11 +232,14 @@ namespace CityInfo.API.Controllers
             }
 
             city.PointsOfInterest.Remove(pointOfInterestFromStore);
+
+            _mailService.Send("POI deleted",
+                $"POI {pointOfInterestFromStore.Name} with id {pointOfInterestFromStore.Id} was deleted.");
+
             return NoContent();
             // pretty straightforward...
 
-            //https://app.pluralsight.com/player?course=asp-dotnet-core-api-building-first&author=kevin-dockx&name=asp-dotnet-core-api-building-first-m3&clip=6&mode=live
-            //1:00
+            
         }
 
     }
