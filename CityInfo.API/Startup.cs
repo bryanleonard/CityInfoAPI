@@ -42,9 +42,10 @@ namespace CityInfo.API
             //    }
             //});
 
+            var connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<CityInfoContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connStr));
 
 
             // More flexible but maybe use environment variable or appsettings? https://bit.ly/2G9B33j
