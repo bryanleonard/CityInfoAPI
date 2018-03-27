@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using NLog.Extensions.Logging;
 using CityInfo.API.Services;
 using Microsoft.Extensions.Configuration;
+using CityInfo.API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API
 {
@@ -30,18 +32,22 @@ namespace CityInfo.API
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()));
-                // Without options, returns camcelCase JSON, or you can return case used in class
-                //.AddJsonOptions(o => {
-                //    if (o.SerializerSettings.ContractResolver != null)
-                //    {
-                //        var castedResolver = o.SerializerSettings.ContractResolver
-                //            as DefaultContractResolver;
-                //        castedResolver.NamingStrategy = null;
-                //    }
-                //});
+            // Without options, returns camcelCase JSON, or you can return case used in class
+            //.AddJsonOptions(o => {
+            //    if (o.SerializerSettings.ContractResolver != null)
+            //    {
+            //        var castedResolver = o.SerializerSettings.ContractResolver
+            //            as DefaultContractResolver;
+            //        castedResolver.NamingStrategy = null;
+            //    }
+            //});
 
 
-            // more flexy but maybe use environment variable or appsettings? https://bit.ly/2G9B33j
+            services.AddDbContext<CityInfoContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+            // More flexible but maybe use environment variable or appsettings? https://bit.ly/2G9B33j
             #if DEBUG
                 services.AddTransient<IMailService, LocalMailService>();
             #else
