@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using CityInfo.API.Data;
 
 namespace CityInfo.API.Entities
 {
@@ -11,7 +12,6 @@ namespace CityInfo.API.Entities
         public CityInfoContext(DbContextOptions<CityInfoContext> options)
             : base(options)
         {
-            Database.Migrate(); //Creates and migrates
         }
 
         public DbSet<City> Cities { get; set; }

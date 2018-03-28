@@ -12,8 +12,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ConnectionStrings:DefaultConnection": "Server=(localdb)\\\\mssqllocaldb;Database=CityInfoAPI-Production;Trusted_Connection=True;MultipleActiveResultSets=true",
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "CityInfo.API": {
