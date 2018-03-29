@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "86788616-71f5-4100-83db-f6b0b9a2fc3e",
+		"name": "ASP.NET Core API - module 6",
+		"description": "# Introduction\nA test API for basic REST in .Net Core 2. Contains a small list of cities and associated points of interest. \n\n\nOriginally sourced from [Pluralsight](https://www.pluralsight.com/courses/asp-dotnet-core-api-building-first)\n\nGitHub\n[CityInfoAPI](https://github.com/bryanleonard/CityInfoAPI)\n\n\n# Overview\nhttp://localhost:1028/\n\nWill create, migrate, and seed the database if one doesn't already exist in LocalDB.\n\n# Authentication\nPostman isn't a bad way to go.\n\n# Error Codes\nTypical 500, 400, and 200 series erros when applicable.\n\n# Rate limit\nNone, but don't push your luck.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET City",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET City with parameter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1?includePointsOfInterest=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Points of Interest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1/pointsofinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Points of Interest (unexisting City)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/4/pointsofinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"4",
+						"pointsofinterest"
+					]
+				},
+				"description": "Should return 404 NotFound"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Point of Interest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Point of Interest (unexisting City)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/4/pointsofinterest/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"4",
+						"pointsofinterest",
+						"1"
+					]
+				},
+				"description": "Should return 404 NotFound"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Point of Interest (unexisting Point of Interest)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"10"
+					]
+				},
+				"description": "Should return 404 NotFound"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Point of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Père Lachaise\",\n    \"description\": \"Famous cemetery where Jim Morrison and Oscar Wilde are buried.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/3/pointsofinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"3",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Point of Interest",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Updated - Central Park\",\n    \"description\": \"Updated - The most visited urban park in the United States.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Point of Interest (update multiple)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/name\",\n      \"value\": \"Updated through PATCH - Central Park\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Updated through PATCH - Description\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/1/pointsofinterest/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Point of Interest",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:1028/api/cities/3/pointsofinterest/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1028",
+					"path": [
+						"api",
+						"cities",
+						"3",
+						"pointsofinterest",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -32,21 +32,22 @@ namespace CityInfo.API
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()));
-            // Without options, returns camcelCase JSON, or you can return case used in class
-            //.AddJsonOptions(o => {
-            //    if (o.SerializerSettings.ContractResolver != null)
-            //    {
-            //        var castedResolver = o.SerializerSettings.ContractResolver
-            //            as DefaultContractResolver;
-            //        castedResolver.NamingStrategy = null;
-            //    }
-            //});
+                    // Without options, returns camcelCase JSON, or you can return case used in class
+                    //.AddJsonOptions(o => {
+                    //    if (o.SerializerSettings.ContractResolver != null)
+                    //    {
+                    //        var castedResolver = o.SerializerSettings.ContractResolver
+                    //            as DefaultContractResolver;
+                    //        castedResolver.NamingStrategy = null;
+                    //    }
+                    //});
 
             var connStr = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<CityInfoContext>(options => 
                 options.UseSqlServer(connStr));
 
+            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
 
             // More flexible but maybe use environment variable or appsettings? https://bit.ly/2G9B33j
             #if DEBUG
@@ -74,8 +75,22 @@ namespace CityInfo.API
             }
 
             app.UseStatusCodePages();
-            app.UseMvc();
 
+            //Automapper init
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                // Getters
+                cfg.CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
+                cfg.CreateMap<Entities.City, Models.CityDto>();
+                cfg.CreateMap<Entities.PointOfInterest, Models.PointOfInterestDto>();
+                // Setters
+                cfg.CreateMap<Models.PointOfInterestForCreationDto, Entities.PointOfInterest>();
+                cfg.CreateMap<Models.PointOfInterestForUpdateDto, Entities.PointOfInterest>();
+
+                cfg.CreateMap<Entities.PointOfInterest, Models.PointOfInterestForUpdateDto>();
+            });
+
+            app.UseMvc();
         }
     }
 }

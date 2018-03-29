@@ -21,7 +21,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id = 1,
-                    Name = "New York City",
+                    Name = "Dummy Data - New York City",
                     Description = "The one with that big park.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -38,7 +38,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id = 2,
-                    Name = "Antwerp",
+                    Name = "Dummy Data - Antwerp",
                     Description = "The one with the cathedral that was never really finished.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -55,7 +55,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id= 3,
-                    Name = "Paris",
+                    Name = "Dummy Data - Paris",
                     Description = "The one with that big tower.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -72,7 +72,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id= 4,
-                    Name = "Cleveland",
+                    Name = "Dummy Data - Cleveland",
                     Description = "The one with that big tower.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -89,7 +89,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id= 5,
-                    Name = "Akron",
+                    Name = "Dummy Data - Akron",
                     Description = "LOL. The Rubber Capital.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -106,7 +106,7 @@ namespace CityInfo.API.Controllers
                 new CityDto()
                 {
                     Id= 6,
-                    Name = "Verona",
+                    Name = "Dummy Data - Verona",
                     Description = "It has those couple of people in it.",
                     PointsOfInterest = new List<PointOfInterestDto>()
                     {
@@ -120,11 +120,10 @@ namespace CityInfo.API.Controllers
                             Description = "The world's largest museum in Montclair, NJ." }
                     }
                 },
-
                 new CityDto()
                 {
                     Id= 7,
-                    Name = "Detroit",
+                    Name = "Dummy Data - Detroit",
                     Description = "They used to make cars here.",
                     //PointsOfInterest = null // does't work
                 }
